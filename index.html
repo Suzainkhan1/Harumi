@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Heartfelt Apology</title>
     <style>
         * {
@@ -16,6 +16,7 @@
             min-height: 100vh;
             overflow: hidden;
             font-family: 'Arial', sans-serif;
+            touch-action: manipulation;
         }
 
         .container {
@@ -24,6 +25,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 15px;
         }
 
         .stars {
@@ -42,30 +44,30 @@
 
         .moon {
             position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 150px;
-            height: 150px;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background: #f1f1f1;
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
         }
 
         .moon::after {
             content: '';
             position: absolute;
-            width: 130px;
-            height: 130px;
+            width: 85px;
+            height: 85px;
             background: linear-gradient(to bottom, #000428, #004e92);
             border-radius: 50%;
-            top: 10px;
-            left: -25px;
+            top: 8px;
+            left: -15px;
             transform: rotate(45deg);
         }
 
         .flower {
             position: absolute;
-            font-size: 2em;
+            font-size: 1.5em;
             animation: float 6s ease-in-out infinite;
             top: -100px;
             left: max(5%, min(90%, calc((100% - 1em) * var(--x-pos))));
@@ -73,12 +75,12 @@
 
         .message-box {
             background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 15px;
             backdrop-filter: blur(10px);
             text-align: center;
+            width: 90%;
             max-width: 600px;
-            margin: 20px;
             transform: scale(0);
             animation: appear 1s ease-out forwards;
         }
@@ -86,31 +88,34 @@
         h1 {
             color: #fff;
             margin-bottom: 1rem;
-            font-size: 2.5em;
+            font-size: 2em;
         }
 
         p {
             color: #fff;
-            font-size: 1.2em;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
+            font-size: 1em;
+            line-height: 1.4;
+            margin-bottom: 1rem;
         }
 
         .buttons {
             display: none;
-            gap: 20px;
-            margin-top: 2rem;
+            gap: 15px;
+            margin-top: 1.5rem;
             justify-content: center;
+            flex-direction: column;
         }
 
         button {
-            padding: 15px 40px;
+            padding: 12px 30px;
             border: none;
             border-radius: 25px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: static;
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
         }
 
         #yesBtn {
@@ -146,7 +151,7 @@
 
         .heart {
             position: absolute;
-            font-size: 1.5em;
+            font-size: 1.2em;
             animation: heartFloat 3s linear forwards;
         }
 
@@ -160,6 +165,38 @@
                 opacity: 0;
             }
         }
+
+        @media (min-width: 768px) {
+            .moon {
+                width: 150px;
+                height: 150px;
+            }
+            .moon::after {
+                width: 130px;
+                height: 130px;
+                top: 10px;
+                left: -25px;
+            }
+            .message-box {
+                padding: 2rem;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            p {
+                font-size: 1.2em;
+            }
+            .buttons {
+                flex-direction: row;
+            }
+            button {
+                width: auto;
+                padding: 15px 40px;
+            }
+            .flower {
+                font-size: 2em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -168,11 +205,10 @@
     <div class="container">
         <div class="message-box">
             <h1>🌹 My Heartfelt Apology 🌹</h1>
-            <p>My Dearest [Her Name],</p>
+            <p>My Dearest Harumi 💫✨,</p>
             <p>I'm truly sorry for hurting you. You mean the world to me, and I can't bear seeing you upset. Every moment without your smile feels incomplete. Please forgive this foolish heart that values you more than words can say.</p>
             <p>You're the moonlight in my darkest nights, the bloom in my eternal garden. I promise to be more thoughtful and cherish our bond always.</p>
-            <p>With all my love and regret,</p>
-            <p>[Your Name]</p>
+           
             
             <div class="buttons">
                 <button id="yesBtn">Yes, I forgive you 💖</button>
@@ -185,7 +221,8 @@
     <script>
         // Create stars
         const starsContainer = document.querySelector('.stars');
-        for (let i = 0; i < 200; i++) {
+        const starCount = window.innerWidth < 768 ? 100 : 200;
+        for (let i = 0; i < starCount; i++) {
             const star = document.createElement('div');
             star.className = 'star';
             star.style.left = `${Math.random() * 100}%`;
@@ -198,25 +235,26 @@
 
         // Create floating flowers
         const flowers = ['🌸', '🌺', '🌷', '🌻', '🌼', '💐'];
+        const flowerInterval = window.innerWidth < 768 ? 2000 : 1500;
         setInterval(() => {
             const flower = document.createElement('div');
             flower.className = 'flower';
             flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
             flower.style.setProperty('--x-pos', Math.random());
-            flower.style.fontSize = `${Math.random() * 2 + 1.5}em`;
+            flower.style.fontSize = `${Math.random() * (window.innerWidth < 768 ? 1.5 : 2) + 1}em`;
             document.body.appendChild(flower);
             
             setTimeout(() => flower.remove(), 6000);
-        }, 1500);
+        }, flowerInterval);
 
         // Show buttons after message animation
         setTimeout(() => {
             document.querySelector('.buttons').style.display = 'flex';
         }, 4000);
 
-        // Improved no button hover effect
+        // Mobile-friendly button movement
         const noBtn = document.getElementById('noBtn');
-        noBtn.addEventListener('mouseover', () => {
+        const moveButton = () => {
             const maxX = window.innerWidth - noBtn.offsetWidth - 20;
             const maxY = window.innerHeight - noBtn.offsetHeight - 20;
             const newX = Math.random() * maxX;
@@ -225,6 +263,13 @@
             noBtn.style.position = 'absolute';
             noBtn.style.left = `${newX}px`;
             noBtn.style.top = `${newY}px`;
+        };
+
+        // Handle both touch and mouse events
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
         });
 
         // Yes button click effect
@@ -237,8 +282,11 @@
                     left: 50%;
                     transform: translate(-50%, -50%);
                     color: white;
-                    font-size: 3em;
+                    font-size: ${window.innerWidth < 768 ? '2em' : '3em'};
                     text-align: center;
+                    padding: 20px;
+                    width: 90%;
+                    max-width: 800px;
                 ">
                     💖 Thank you! You've made me the happiest person! 💖<br>
                     Let's make more beautiful memories together! 🌈
@@ -249,6 +297,7 @@
 
         // Create floating hearts
         function createHearts() {
+            const heartInterval = window.innerWidth < 768 ? 500 : 300;
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
@@ -257,7 +306,7 @@
                 document.querySelector('.hearts').appendChild(heart);
                 
                 setTimeout(() => heart.remove(), 3000);
-            }, 300);
+            }, heartInterval);
         }
     </script>
 </body>
